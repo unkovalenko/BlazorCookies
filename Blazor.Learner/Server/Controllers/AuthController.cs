@@ -26,7 +26,7 @@ namespace Blazor.Learner.Server.Controllers
         public async Task<IActionResult> Login(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
-            
+            user.
             if (user == null) return BadRequest("User does not exist");
             var singInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (!singInResult.Succeeded) return BadRequest("Invalid password");           
