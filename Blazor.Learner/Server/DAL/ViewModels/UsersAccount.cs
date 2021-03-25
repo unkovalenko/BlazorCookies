@@ -7,13 +7,13 @@ using Microsoft.Extensions.Configuration;
 
 
 using Microsoft.EntityFrameworkCore;
-using BlazorTemplate.DAL;
-using BlazorTemplate.Server.Data;
+using BlazorCookies.DAL;
+using BlazorCookies.Server.Data;
 
 
 
 
-namespace BlazorTemplate.Models
+namespace BlazorCookies.Models
 {
   
     // класс модель . Для логина и аутентифиткации
@@ -26,9 +26,9 @@ namespace BlazorTemplate.Models
     }
     public class UsersAccount
 	{
-		public ApplicationDbContext context;
+		public ApplicationDBContext context;
 		public IConfiguration Configuration { get; }
-		public UsersAccount(IConfiguration configuration, ApplicationDbContext _context)
+		public UsersAccount(IConfiguration configuration, ApplicationDBContext _context)
 		{
 			context = _context;
 			Configuration = configuration;

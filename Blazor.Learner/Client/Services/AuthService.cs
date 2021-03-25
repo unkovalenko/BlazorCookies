@@ -1,4 +1,4 @@
-﻿using Blazor.Learner.Shared.Models;
+﻿using BlazorCookies.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace Blazor.Learner.Client.Services
+namespace BlazorCookies.Client.Services
 {
     public class AuthService : IAuthService
     {

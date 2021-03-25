@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
-using BlazorTemplate.Models;
-using BlazorTemplate.Server.Data;
-
-namespace BlazorTemplate.DAL
+using BlazorCookies.Models;
+using BlazorCookies.Shared;
+using BlazorCookies.Server.Data;
+namespace BlazorCookies.DAL
 {   
     public  class EUnitOfWork : IDisposable
     {
-        private ApplicationDbContext _context;
+        private ApplicationDBContext _context;
         private DBView<USERS, UserExtensionData> viewUsers;
         private DBTable<USERS> tblUsers;
-        public EUnitOfWork (ApplicationDbContext dbcontext )
+        public EUnitOfWork (ApplicationDBContext dbcontext )
         {
             _context = dbcontext;
         }

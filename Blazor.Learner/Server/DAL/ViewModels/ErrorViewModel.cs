@@ -1,6 +1,6 @@
 using System;
 
-namespace BlazorTemplate.Models
+namespace BlazorCookies.Models
 {
     public class ErrorViewModel
     {

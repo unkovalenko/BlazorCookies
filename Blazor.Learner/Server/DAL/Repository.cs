@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 
 
-namespace BlazorTemplate.Models
+namespace BlazorCookies.Models
 {
 	public interface IControllerExt
 	{

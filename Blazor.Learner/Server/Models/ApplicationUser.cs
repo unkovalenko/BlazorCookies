@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Blazor.Learner.Server.Models
+namespace BlazorCookies.Server.Models
 {
     public class ApplicationUser : IdentityUser
     {

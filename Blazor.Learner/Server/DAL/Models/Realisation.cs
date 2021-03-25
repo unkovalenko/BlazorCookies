@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 
 
 
-namespace BlazorTemplate.Models
+namespace BlazorCookies.Models
 {
     public class Catalog
     {

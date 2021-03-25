@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Blazor.Learner.Shared.Models
+namespace BlazorCookies.Shared.Models
 {
     public class CurrentUser
     {

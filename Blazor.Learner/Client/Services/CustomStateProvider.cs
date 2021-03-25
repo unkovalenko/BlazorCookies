@@ -1,4 +1,4 @@
-﻿using Blazor.Learner.Shared.Models;
+﻿using BlazorCookies.Shared.Models;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Blazor.Learner.Client.Services
+namespace BlazorCookies.Client.Services
 {
 public class CustomStateProvider : AuthenticationStateProvider
 {

@@ -1,10 +1,10 @@
-﻿using Blazor.Learner.Shared.Models;
+﻿using BlazorCookies.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Blazor.Learner.Client.Services
+namespace BlazorCookies.Client.Services
 {
     public interface IAuthService
     {

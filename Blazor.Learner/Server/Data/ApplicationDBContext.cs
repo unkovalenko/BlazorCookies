@@ -1,16 +1,19 @@
-﻿using Blazor.Learner.Server.Models;
-using Blazor.Learner.Shared.Models;
+﻿using BlazorCookies.Server.Models;
+using BlazorCookies.Shared.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlazorCookies.Models;
 
-namespace Blazor.Learner.Server.Data
+namespace BlazorCookies.Server.Data
 {
     public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     {
+        public virtual DbSet<USERS> USERS { get; set; }
+        public virtual DbSet<PERSONAL> PERSONAL { get; set; }
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {
         }

@@ -6,14 +6,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
-using Blazor.Learner.Server.Data;
+using BlazorCookies.Server.Data;
 using Microsoft.EntityFrameworkCore;
-using Blazor.Learner.Server.Models;
+using BlazorCookies.Server.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using FirebirdSql;
 
-namespace Blazor.Learner.Server
+namespace BlazorCookies.Server
 {
     public class Startup
     {

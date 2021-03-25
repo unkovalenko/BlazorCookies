@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using BlazorTemplate.Server.Data;
+using BlazorCookies.Server.Data;
 
 
 
 
 
-namespace BlazorTemplate.Models
+namespace BlazorCookies.Models
 {
    
 
     public class DBView<TEntity, TViewExtensionEntity> : DBTable<TEntity> where TEntity : class where TViewExtensionEntity : class
     {
         protected IQueryable vwQuery;
-        public DBView(ApplicationDbContext dbContext, IQueryable vwquery=null) : base(dbContext)
+        public DBView(ApplicationDBContext dbContext, IQueryable vwquery=null) : base(dbContext)
         {
             vwQuery = vwquery;
         }

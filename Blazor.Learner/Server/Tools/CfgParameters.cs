@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace BlazorTemplate.Models
+namespace BlazorCookies.Models
 {
     public interface IJsConfig
     {

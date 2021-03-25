@@ -1,8 +1,8 @@
-namespace BlazorTemplate.Models
+namespace BlazorCookies.Models
 {
     using System;
 	using Microsoft.EntityFrameworkCore;
-    using BlazorTemplate.Server.Data;
+    using BlazorCookies.Server.Data;
 	
 
 	  public interface ISQLToolsRepository
@@ -60,8 +60,8 @@ namespace BlazorTemplate.Models
 	
 	public class EFSQLToolsRepository : ISQLToolsRepository
     {
-		private ApplicationDbContext context;
-		public EFSQLToolsRepository(ApplicationDbContext _context)
+		private ApplicationDBContext context;
+		public EFSQLToolsRepository(ApplicationDBContext _context)
 		{
 			context = _context;
 		}

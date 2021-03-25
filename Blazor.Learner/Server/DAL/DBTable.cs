@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using BlazorTemplate.Server.Data;
+using BlazorCookies.Server.Data;
 
 
 
-namespace BlazorTemplate.Models
+namespace BlazorCookies.Models
 {
    
     public  class DBTable<TEntity>: IDBTable<TEntity> where TEntity : class
     {
-        internal ApplicationDbContext context;
+        internal ApplicationDBContext context;
         internal DbSet<TEntity> dbSet;     
 
-        public DBTable(ApplicationDbContext dbContext)
+        public DBTable(ApplicationDBContext dbContext)
         {
             this.context = dbContext;
             this.dbSet = context.Set<TEntity>();

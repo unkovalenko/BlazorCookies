@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Blazor.Learner.Server.Data;
-using Blazor.Learner.Shared.Models;
+using BlazorCookies.Server.Data;
+using BlazorCookies.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Blazor.Learner.Server.Controllers
+namespace BlazorCookies.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,4 +1,4 @@
-﻿using Blazor.Learner.Shared;
+﻿using BlazorCookies.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Blazor.Learner.Server.Controllers
+namespace BlazorCookies.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
