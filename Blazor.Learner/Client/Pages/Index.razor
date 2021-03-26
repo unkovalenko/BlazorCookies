@@ -1,10 +1,34 @@
 ﻿@page "/"
-
+@using System.Security.Claims
 <AuthorizeView>
     <Authorized>
         <h1>Hello @context.User.Identity.Name !!</h1>
 
         <p>Welcome to Blazor Learner</p>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Требования
+            </div>
+            <table class="table table-striped">
+                <tr>
+                    <th>Subject</th>
+                    <th>Issuer</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                </tr>
+                @foreach (Claim claim in @context.User.Claims.Where(x => x.Type=="PersonalID"))
+                {
+                    <tr>
+                        <td>@claim.Subject.Name</td>
+                        <td>@claim.Issuer</td>
+                        <td>@(claim.Type)</td>
+                        <td>@claim.Value</td>
+                    </tr>
+                }
+            </table>
+
+        </div>
 
         <SurveyPrompt Title="How is Blazor working for you?" />
     </Authorized>
