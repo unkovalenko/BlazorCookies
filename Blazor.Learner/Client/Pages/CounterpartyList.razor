@@ -23,9 +23,9 @@ else
     </ToolBarContent>
     <HeaderContent>
         <MudTh>FirstName</MudTh>
-        <MudTh>Sign</MudTh>
+        <MudTh>Ref</MudTh>
         <MudTh>EDRPOU</MudTh>
-        <MudTh>Vity</MudTh>
+        <MudTh>City</MudTh>
         <MudTh>Description</MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -51,13 +51,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-       // counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");
-        counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty/ЕТЦ");
+        // counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");
+        counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");
     }
-    private void OnSearch(string text)
+    protected  async Task OnSearch(string text)
     {
         searchString = text;
-
+        counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty/"+text);
         //table.ReloadServerData();
     }
 
