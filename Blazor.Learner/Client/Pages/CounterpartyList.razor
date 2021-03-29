@@ -2,9 +2,11 @@
 @using BlazorCookies.Shared
 @inject HttpClient Http
 
+
+
 <h1>Counterparty</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+
 
 @if (counterpartylist == null)
 {
@@ -12,35 +14,51 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>EDRPOU</th>
-                <th>FirstName. (C)</th>
-                <th>Ref. (F)</th>
-                <th>CounterpartyType</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var counyterparty in counterpartylist)
-            {
-                <tr>
-                    <td>@counyterparty.EDRPOU</td>
-                    <td>@counyterparty.FirstName</td>
-                    <td>@counyterparty.Ref</td>
-                    <td>@counyterparty.CounterpartyType</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<MudTable Items="@counterpartylist" MultiSelection="false" @bind-SelectedItems="selectedItems" Hover="@hover">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">counterpartylist</MudText>
+        <MudToolBarSpacer />
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>FirstName</MudTh>
+        <MudTh>Sign</MudTh>
+        <MudTh>EDRPOU</MudTh>
+        <MudTh>Vity</MudTh>
+        <MudTh>Description</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Nr">@context.FirstName</MudTd>
+        <MudTd DataLabel="Sign">@context.Ref</MudTd>
+        <MudTd DataLabel="Name">@context.EDRPOU</MudTd>
+        <MudTd DataLabel="Position">@context.City</MudTd>
+        <MudTd DataLabel="Molar mass">@context.Description</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+    </PagerContent>
+</MudTable>
+  
 }
 
 @code {
     private CounterpartyData[] counterpartylist;
+    private bool hover = true;
+    private HashSet<CounterpartyData> selectedItems = new HashSet<CounterpartyData>();
+    private string searchString = "ЕТЦ";
+    private MudTable<CounterpartyData> table;
 
     protected override async Task OnInitializedAsync()
     {
-        counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");
+       // counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");
+        counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty/ЕТЦ");
+    }
+    private void OnSearch(string text)
+    {
+        searchString = text;
+
+        //table.ReloadServerData();
     }
 
 }

@@ -45,12 +45,14 @@ namespace BlazorCookies.Shared.Models
     //  request to API NP
     public class CountepartyListReqwest : NPRequest
     {
-        public CountepartyListReqwest(IConfiguration configuration) : base(configuration)
+        public CountepartyListReqwest(IConfiguration configuration,string findbystring="") : base(configuration)
         {
             this.modelName = "Counterparty";
             this.calledMethod = "getCounterparties";
             methodProperties = new CounterPartyListReuestProperty();
-        }
+            methodProperties.FindByString = findbystring;
+             
+    }
         public CounterPartyListReuestProperty methodProperties { get; set; }
     }
 
@@ -58,6 +60,7 @@ namespace BlazorCookies.Shared.Models
     {
         public string CounterpartyProperty { get; set; } = "Recipient";
         public string Page { get; set; } = "1";
+        public string FindByString { get; set; } = "";
     }
 
 
