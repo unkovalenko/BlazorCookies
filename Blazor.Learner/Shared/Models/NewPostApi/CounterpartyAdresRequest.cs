@@ -14,7 +14,6 @@ namespace BlazorCookies.Shared.Models
             methodProperties = new Methodproperties();
             methodProperties.CounterpartyProperty = "Recipient";
             methodProperties.Ref = aref;
-
         }
         public Methodproperties methodProperties { get; set; }
     }

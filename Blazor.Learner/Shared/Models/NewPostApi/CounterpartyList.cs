@@ -62,12 +62,4 @@ namespace BlazorCookies.Shared.Models
         public string Page { get; set; } = "1";
         public string FindByString { get; set; } = "";
     }
-
-
-
-
-    
-
-
-
 }

@@ -76,20 +76,57 @@ else
             <MudTd DataLabel="Position">@context.CityDescription</MudTd>
             <MudTd DataLabel="Molar mass">@context.StreetDescription</MudTd>
             <MudTd DataLabel="Molar mass">@context.BuildingDescription</MudTd>
-        </RowTemplate>   
+        </RowTemplate>
         <PagerContent>
             <MudTablePager PageSizeOptions="new int[]{20, 50}" />
         </PagerContent>
     </MudTable>
 }
 
+@if (contactPersonCounterpartyData == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudTable Items="@contactPersonCounterpartyData" MultiSelection="false" @bind-SelectedItems="selectedPersonItems" Hover="@hover">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">@alertmes</MudText>
+            <MudToolBarSpacer />
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>FirstName</MudTh>
+            <MudTh>MiddleName</MudTh>
+            <MudTh>LastName</MudTh>
+            <MudTh>Phones</MudTh>
+            <MudTh>Email</MudTh>
+            <MudTh>Description</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nr">@context.FirstName</MudTd>
+            <MudTd DataLabel="Sign">@context.MiddleName</MudTd>
+            <MudTd DataLabel="Name">@context.LastName</MudTd>
+            <MudTd DataLabel="Position">@context.Phones</MudTd>
+            <MudTd DataLabel="Molar mass">@context.Email</MudTd>
+            <MudTd DataLabel="Molar mass">@context.Description</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[]{20, 50}" />
+        </PagerContent>
+    </MudTable>
+}
 
 @code {
     private CounterpartyData[] counterpartylist;
     private CounterpartyAdresData[] counterpartyadress;
+    private ContactPersonCounterpartyData[] contactPersonCounterpartyData;
+
     private bool hover = true;
     private HashSet<CounterpartyData> selectedItems = new HashSet<CounterpartyData>();
     private HashSet<CounterpartyAdresData> selectedAdresItems = new HashSet<CounterpartyAdresData>();
+    private HashSet<ContactPersonCounterpartyData> selectedPersonItems = new HashSet<ContactPersonCounterpartyData>();
     private string searchString = "ЕТЦ";
     private MudTable<CounterpartyData> table;
     private string alertmes = "-";
@@ -106,10 +143,12 @@ else
         counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty/" + text);
         //table.ReloadServerData();
     }
-    protected async Task OnViewDetail(string aref,string name)
+    protected async Task OnViewDetail(string aref, string name)
+     //    protected void OnViewDetail(string aref, string name)
     {
-        alertmes = String.Format("Адреса{0}  ref{1}",name,aref );
-        counterpartyadress = await Http.GetFromJsonAsync<CounterpartyAdresData[]>("counterpartyadres/"+aref);
+        alertmes = String.Format("Адреса{0}  ref{1}", name, aref);
+         counterpartyadress = await Http.GetFromJsonAsync<CounterpartyAdresData[]>("counterpartyadres/" + aref);
+         contactPersonCounterpartyData = await Http.GetFromJsonAsync<ContactPersonCounterpartyData[]>("contactpersoncounterparty/" + aref);
         //table.ReloadServerData();
 
 

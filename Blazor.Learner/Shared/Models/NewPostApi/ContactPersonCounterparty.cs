@@ -8,7 +8,7 @@ namespace BlazorCookies.Shared.Models
     public class ContactPersonCounterparty
     {
         public bool success { get; set; }
-        public ContactPersonCounterpartyDatum[] data { get; set; }
+        public ContactPersonCounterpartyData[] data { get; set; }
         public object[] errors { get; set; }
         public object[] warnings { get; set; }
         public ContactPersonCounterpartyInfo info { get; set; }
@@ -23,7 +23,7 @@ namespace BlazorCookies.Shared.Models
         public int totalCount { get; set; }
     }
 
-    public class ContactPersonCounterpartyDatum
+    public class ContactPersonCounterpartyData
     {
         public string Description { get; set; }
         public string Phones { get; set; }
