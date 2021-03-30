@@ -32,7 +32,9 @@ namespace BlazorCookies.Server.Controllers
         {
             string jsonString = (CounterpartyReuest("").Result.ToString());
             CounterpartyList counterpartyList = JsonSerializer.Deserialize<CounterpartyList>(jsonString);
-            return counterpartyList.data;
+            List<CounterpartyData> templist = counterpartyList.data.ToList<CounterpartyData>().OrderBy(o => o.FirstName).ToList();
+            return templist.ToArray();
+            
         }
 
         [HttpGet("{searchString}")]
@@ -40,7 +42,8 @@ namespace BlazorCookies.Server.Controllers
         {
             string jsonString = (CounterpartyReuest(searchString).Result.ToString());
             CounterpartyList counterpartyList = JsonSerializer.Deserialize<CounterpartyList>(jsonString);
-            return counterpartyList.data;
+            List<CounterpartyData> templist = counterpartyList.data.ToList<CounterpartyData>().OrderBy(o => o.FirstName).ToList();
+            return templist.ToArray();
         }
 
         public async Task<string> CounterpartyReuest(string searchstring)

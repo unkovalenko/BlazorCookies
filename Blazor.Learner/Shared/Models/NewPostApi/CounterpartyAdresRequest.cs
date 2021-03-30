@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 
-namespace BlazorCookies.Shared.Models.NewPostApi
+namespace BlazorCookies.Shared.Models
 {
-    class CounterpartyAdresRequest : NPRequest
+    public class CounterpartyAdresRequest : NPRequest
     {
         public CounterpartyAdresRequest(IConfiguration configuration, string aref) : base(configuration)
         {
@@ -30,7 +30,7 @@ namespace BlazorCookies.Shared.Models.NewPostApi
     public class CounterpartyAdres
     {
         public bool success { get; set; }
-        public CounterpartyAdresDatum[] data { get; set; }
+        public CounterpartyAdresData[] data { get; set; }
         public object[] errors { get; set; }
         public object[] warnings { get; set; }
         public CounterpartyAdresInfo info { get; set; }
@@ -45,7 +45,7 @@ namespace BlazorCookies.Shared.Models.NewPostApi
         public int totalCount { get; set; }
     }
 
-    public class CounterpartyAdresDatum
+    public class CounterpartyAdresData
     {
         public string Ref { get; set; }
         public string Description { get; set; }

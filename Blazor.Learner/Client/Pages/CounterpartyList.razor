@@ -1,12 +1,12 @@
 ﻿@page "/counterpartylist"
-@using BlazorCookies.Shared
+@using BlazorCookies.Shared.Models
 @inject HttpClient Http
 
 
 
 <h1>Counterparty</h1>
 
-
+<MudAlert Severity="Severity.Success">@alertmes</MudAlert>
 
 @if (counterpartylist == null)
 {
@@ -14,51 +14,105 @@
 }
 else
 {
-<MudTable Items="@counterpartylist" MultiSelection="false" @bind-SelectedItems="selectedItems" Hover="@hover">
-    <ToolBarContent>
-        <MudText Typo="Typo.h6">counterpartylist</MudText>
-        <MudToolBarSpacer />
-        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-    </ToolBarContent>
-    <HeaderContent>
-        <MudTh>FirstName</MudTh>
-        <MudTh>Ref</MudTh>
-        <MudTh>EDRPOU</MudTh>
-        <MudTh>City</MudTh>
-        <MudTh>Description</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Nr">@context.FirstName</MudTd>
-        <MudTd DataLabel="Sign">@context.Ref</MudTd>
-        <MudTd DataLabel="Name">@context.EDRPOU</MudTd>
-        <MudTd DataLabel="Position">@context.City</MudTd>
-        <MudTd DataLabel="Molar mass">@context.Description</MudTd>
-    </RowTemplate>
-    <PagerContent>
-        <MudTablePager PageSizeOptions="new int[]{50, 100}" />
-    </PagerContent>
-</MudTable>
-  
+    <MudTable Items="@counterpartylist" MultiSelection="false" @bind-SelectedItems="selectedItems" Hover="@hover">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Контрагенты</MudText>
+            <MudToolBarSpacer />
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>FirstName</MudTh>
+            <MudTh>Ref</MudTh>
+            <MudTh>EDRPOU</MudTh>
+            <MudTh>City</MudTh>
+            <MudTh>Description</MudTh>
+            <MudTh> OwnershipFormDescription</MudTh>
+            <MudTh>Counterparty </MudTh>
+            <MudTh>CounterpartyType </MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.FirstName</MudTd>
+            <MudTd>@context.Ref</MudTd>
+            <MudTd>@context.EDRPOU</MudTd>
+            <MudTd>@context.City</MudTd>
+            <MudTd>@context.Description</MudTd>
+            <MudTd>@context.OwnershipFormDescription</MudTd>
+            <MudTd>@context.Counterparty</MudTd>
+            <MudTd>@context.CounterpartyType</MudTd>
+            <MudTd><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(()=>OnViewDetail(context.Ref,context.FirstName))">Adress</MudButton></MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[]{20, 50}" />
+        </PagerContent>
+    </MudTable>
 }
+
+@if (counterpartyadress == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudTable Items="@counterpartyadress" MultiSelection="false" @bind-SelectedItems="selectedAdresItems" Hover="@hover">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">@alertmes</MudText>
+            <MudToolBarSpacer />
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>AddressName</MudTh>
+            <MudTh>Ref</MudTh>
+            <MudTh>Description</MudTh>
+            <MudTh>CityDescription</MudTh>
+            <MudTh>StreetDescription</MudTh>
+            <MudTh>BuildingDescription</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nr">@context.AddressName</MudTd>
+            <MudTd DataLabel="Sign">@context.Ref</MudTd>
+            <MudTd DataLabel="Name">@context.Description</MudTd>
+            <MudTd DataLabel="Position">@context.CityDescription</MudTd>
+            <MudTd DataLabel="Molar mass">@context.StreetDescription</MudTd>
+            <MudTd DataLabel="Molar mass">@context.BuildingDescription</MudTd>
+        </RowTemplate>   
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[]{20, 50}" />
+        </PagerContent>
+    </MudTable>
+}
+
 
 @code {
     private CounterpartyData[] counterpartylist;
+    private CounterpartyAdresData[] counterpartyadress;
     private bool hover = true;
     private HashSet<CounterpartyData> selectedItems = new HashSet<CounterpartyData>();
+    private HashSet<CounterpartyAdresData> selectedAdresItems = new HashSet<CounterpartyAdresData>();
     private string searchString = "ЕТЦ";
     private MudTable<CounterpartyData> table;
+    private string alertmes = "-";
 
     protected override async Task OnInitializedAsync()
     {
         // counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");
         counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");
+
     }
-    protected  async Task OnSearch(string text)
+    protected async Task OnSearch(string text)
     {
         searchString = text;
-        counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty/"+text);
+        counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty/" + text);
         //table.ReloadServerData();
+    }
+    protected async Task OnViewDetail(string aref,string name)
+    {
+        alertmes = String.Format("Адреса{0}  ref{1}",name,aref );
+        counterpartyadress = await Http.GetFromJsonAsync<CounterpartyAdresData[]>("counterpartyadres/"+aref);
+        //table.ReloadServerData();
+
+
     }
 
 }
