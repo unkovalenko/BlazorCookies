@@ -33,8 +33,7 @@ namespace BlazorCookies.Server.Controllers
             string jsonString = (CounterpartyReuest("").Result.ToString());
             CounterpartyList counterpartyList = JsonSerializer.Deserialize<CounterpartyList>(jsonString);
             List<CounterpartyData> templist = counterpartyList.data.ToList<CounterpartyData>().OrderBy(o => o.FirstName).ToList();
-            return templist.ToArray();
-            
+            return templist.ToArray();           
         }
 
         [HttpGet("{searchString}")]

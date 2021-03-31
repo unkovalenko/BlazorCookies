@@ -103,6 +103,7 @@ else
             <MudTh>Phones</MudTh>
             <MudTh>Email</MudTh>
             <MudTh>Description</MudTh>
+            <MudTh>Ref</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Nr">@context.FirstName</MudTd>
@@ -111,6 +112,7 @@ else
             <MudTd DataLabel="Position">@context.Phones</MudTd>
             <MudTd DataLabel="Molar mass">@context.Email</MudTd>
             <MudTd DataLabel="Molar mass">@context.Description</MudTd>
+            <MudTd>@context.Ref</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager PageSizeOptions="new int[]{20, 50}" />
