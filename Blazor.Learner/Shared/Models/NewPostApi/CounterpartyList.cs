@@ -58,7 +58,7 @@ namespace BlazorCookies.Shared.Models
 
     public class CounterPartyListReuestProperty
     {
-        public string CounterpartyProperty { get; set; } = "ThirdPerson";
+        public string CounterpartyProperty { get; set; } = "Recipient";
         public string Page { get; set; } = "1";
         public string FindByString { get; set; } = "";
     }

@@ -34,7 +34,15 @@ namespace BlazorCookies.Server.Controllers
         {
             string jsonString = (this.CounterpartyReuest("").Result.ToString());
             ContactPersonCounterparty counterpartyPers = JsonSerializer.Deserialize<ContactPersonCounterparty>(jsonString);
-            return counterpartyPers.data;
+            if (counterpartyPers.success)
+            {
+                return counterpartyPers.data;
+            }
+            else
+            {
+                counterpartyPers.data[0] = new ContactPersonCounterpartyData();
+                return counterpartyPers.data;
+            }
         }
 
         [HttpGet("{searchString}")]
@@ -42,7 +50,16 @@ namespace BlazorCookies.Server.Controllers
         {
             string jsonString = (this.CounterpartyReuest(searchString).Result.ToString());
             ContactPersonCounterparty counterpartyPers = JsonSerializer.Deserialize<ContactPersonCounterparty>(jsonString);
-            return counterpartyPers.data;
+
+            if (counterpartyPers.success)
+            {
+                return counterpartyPers.data;
+            }
+            else
+            {
+                counterpartyPers.data[0] = new ContactPersonCounterpartyData();
+                return counterpartyPers.data;
+            }
         }
 
         public async Task<string> CounterpartyReuest(string searchstring)
