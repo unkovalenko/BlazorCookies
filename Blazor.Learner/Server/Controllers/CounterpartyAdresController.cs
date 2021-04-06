@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BlazorCookies.Shared.Models;
+using Newtonsoft.Json;
 
 namespace BlazorCookies.Server.Controllers
 {
@@ -32,7 +33,7 @@ namespace BlazorCookies.Server.Controllers
         public CounterpartyAdresData[] Get()
         {
             string jsonString = (this.CounterpartyReuest("").Result.ToString());
-            CounterpartyAdres counterpartyAdres = JsonSerializer.Deserialize<CounterpartyAdres>(jsonString);
+            CounterpartyAdres counterpartyAdres = JsonConvert.DeserializeObject<CounterpartyAdres>(jsonString);
             if (counterpartyAdres.success)
             {
                 return counterpartyAdres.data;
@@ -48,7 +49,7 @@ namespace BlazorCookies.Server.Controllers
         public CounterpartyAdresData[] Get(string searchString)
         {
             string jsonString = (this.CounterpartyReuest(searchString).Result.ToString());
-            CounterpartyAdres counterpartyAdres = JsonSerializer.Deserialize<CounterpartyAdres>(jsonString);
+            CounterpartyAdres counterpartyAdres = JsonConvert.DeserializeObject<CounterpartyAdres>(jsonString);
             if (counterpartyAdres.success)
             {
                 return counterpartyAdres.data;
@@ -64,7 +65,7 @@ namespace BlazorCookies.Server.Controllers
         {
             var client = clientFactory.CreateClient("NewPostAPI");
             CounterpartyAdresRequest reuest = new CounterpartyAdresRequest(Configuration, searchstring);
-            var jrequest = new StringContent(JsonSerializer.Serialize(reuest));
+            var jrequest = new StringContent(System.Text.Json.JsonSerializer.Serialize(reuest));
             using var httpResponse = await client.PostAsync(new Uri(Configuration.GetValue<string>("URLNewPos")), jrequest);
             return httpResponse.Content.ReadAsStringAsync().Result;
         }

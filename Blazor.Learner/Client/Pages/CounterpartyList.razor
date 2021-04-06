@@ -61,7 +61,7 @@ else
 {
 <MudTable Items="@counterpartyadress" MultiSelection="false" @bind-SelectedItems="selectedAdresItems" Hover="@hover">
     <ToolBarContent>
-        <MudText Typo="Typo.h6">@alertmes</MudText>
+        <MudText Typo="Typo.h6">Адреса</MudText>
         <MudToolBarSpacer />
         <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
@@ -103,7 +103,7 @@ else
 {
     <MudTable Items="@contactPersonCounterpartyData" MultiSelection="false" @bind-SelectedItems="selectedPersonItems" Hover="@hover">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">@alertmes</MudText>
+            <MudText Typo="Typo.h6">Контакты</MudText>
             <MudToolBarSpacer />
             <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
                           AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
@@ -176,9 +176,9 @@ else
         }
         // alertmes = String.Format("Адреса{0}  ref{1}   Адресов{2}", name, aref, counterpartyadress.Count());
         tempcontpers = await Http.GetFromJsonAsync<ContactPersonCounterpartyData[]>("contactpersoncounterparty/" + aref);
-      //  if (tempcontpers != null)
+        if (tempcontpers != null)
         {
-            // contactPersonCounterpartyData = tempcontpers; 
+             contactPersonCounterpartyData = tempcontpers; 
         }
 
         //table.ReloadServerData();

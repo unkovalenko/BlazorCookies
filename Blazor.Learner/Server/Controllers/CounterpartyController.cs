@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BlazorCookies.Shared.Models;
+using Newtonsoft.Json;
 
 namespace BlazorCookies.Server.Controllers
 {
@@ -31,7 +32,7 @@ namespace BlazorCookies.Server.Controllers
         public CounterpartyData[] Get()
         {
             string jsonString = (CounterpartyReuest("").Result.ToString());
-            CounterpartyList counterpartyList = JsonSerializer.Deserialize<CounterpartyList>(jsonString);
+            CounterpartyList counterpartyList = JsonConvert.DeserializeObject<CounterpartyList>(jsonString);
             List<CounterpartyData> templist = counterpartyList.data.ToList<CounterpartyData>().OrderBy(o => o.FirstName).ToList();
             return templist.ToArray();           
         }
@@ -40,7 +41,7 @@ namespace BlazorCookies.Server.Controllers
         public CounterpartyData[] Get(string searchString)
         {
             string jsonString = (CounterpartyReuest(searchString).Result.ToString());
-            CounterpartyList counterpartyList = JsonSerializer.Deserialize<CounterpartyList>(jsonString);
+            CounterpartyList counterpartyList = JsonConvert.DeserializeObject<CounterpartyList>(jsonString);
             List<CounterpartyData> templist = counterpartyList.data.ToList<CounterpartyData>().OrderBy(o => o.FirstName).ToList();
             return templist.ToArray();
         }
@@ -49,7 +50,7 @@ namespace BlazorCookies.Server.Controllers
         {
             var client = clientFactory.CreateClient("NewPostAPI");
             CountepartyListReqwest reuest = new CountepartyListReqwest(Configuration,searchstring);
-            var jrequest = new StringContent(JsonSerializer.Serialize(reuest));
+            var jrequest = new StringContent(System.Text.Json.JsonSerializer.Serialize(reuest));
             using var httpResponse = await client.PostAsync(new Uri(Configuration.GetValue<string>("URLNewPos")), jrequest);
             return httpResponse.Content.ReadAsStringAsync().Result;
         }
