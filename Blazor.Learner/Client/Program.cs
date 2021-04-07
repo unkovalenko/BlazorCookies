@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Components.Authorization;
 using BlazorCookies.Client.Services;
 using MudBlazor.Services;
+using BlazorTable;
 
 namespace BlazorCookies.Client
 {
@@ -28,6 +29,7 @@ public class Program
 
         builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
         builder.Services.AddMudServices();
+        builder.Services.AddBlazorTable();
             await builder.Build().RunAsync();
     }
 }

@@ -4,151 +4,75 @@
 
 
 
-<h1>Counterparty</h1>
+<h1>alertmes</h1>
 
-<MudAlert Severity="Severity.Success">@alertmes</MudAlert>
 
-@if (counterpartylist == null)
+@if ((counterpartylist == null) || (counterpartyadress==null))
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <MudTable Items="@counterpartylist" MultiSelection="false" @bind-SelectedItems="selectedItems" Hover="@hover">
-        <ToolBarContent>
-            <MudText Typo="Typo.h6">Контрагенты</MudText>
-            <MudToolBarSpacer />
-            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
-                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-        </ToolBarContent>
-        <HeaderContent>
-            <MudTh>FirstName</MudTh>
-            <MudTh>Ref</MudTh>
-            <MudTh>EDRPOU</MudTh>
-            <MudTh>City</MudTh>
-            <MudTh>Description</MudTh>
-            <MudTh> OwnershipFormDescription</MudTh>
-            <MudTh>Counterparty </MudTh>
-            <MudTh>CounterpartyType </MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd>@context.FirstName</MudTd>
-            <MudTd>@context.Ref</MudTd>
-            <MudTd>@context.EDRPOU</MudTd>
-            <MudTd>@context.City</MudTd>
-            <MudTd>@context.Description</MudTd>
-            <MudTd>@context.OwnershipFormDescription</MudTd>
-            <MudTd>@context.Counterparty</MudTd>
-            <MudTd>@context.CounterpartyType</MudTd>
-            <MudTd><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(()=>OnViewDetail(context.Ref,context.FirstName))">Adress</MudButton></MudTd>
-        </RowTemplate>
-        <PagerContent>
-            <MudTablePager PageSizeOptions="new int[]{20, 50}" />
-        </PagerContent>
-    </MudTable>
+<Table TableItem="CounterpartyData" Items="counterpartylist" PageSize="15"  RowClickAction="@(x => { ClickID(x); })">
+    <Column TableItem="CounterpartyData" Title="Id" Field="@(x => x.EDRPOU)" Sortable="true" Filterable="true" Width="10%"  />
+    <Column TableItem="CounterpartyData" Title="First Name" Field="@(x => x.FirstName)" Sortable="true" Filterable="true" Width="20%" />
+    <Column TableItem="CounterpartyData" Title="Last Name" Field="@(x => x.LastName)" Sortable="true" Filterable="true" Width="20%" />
+    <Column TableItem="CounterpartyData" Title="Email" Field="@(x => x.Description)" Sortable="true" Filterable="true" Width="20%"></Column>
+    <Column TableItem="CounterpartyData" Title="City" Field="@(x => x.City)" Sortable="true" Filterable="true" Width="10%" />
+    <Column TableItem="CounterpartyData" Title="Ref" Field="@(x => x.Ref)" Sortable="true" Filterable="true" Width="10%">
+        <Template>
+            <input type="button" @bind-value="@context.Ref" class="btn btn-primary" onclick="(){ @alertmes = @context.Ref}" />
+        </Template>
+    </Column> />
+    <Column TableItem="CounterpartyData" Title="MiddleName Date" Field="@(x => x.MiddleName)" Sortable="true" Width="10%">
+    </Column>
+    <DetailTemplate TableItem="CounterpartyData" >
+
+        <Table TableItem="CounterpartyAdresData" Items="counterpartyadress" PageSize="15" >
+            <Column TableItem="CounterpartyAdresData" Title="Id" Field="@(x => x.Ref)" Sortable="true" Filterable="true" Width="10%" />
+            <Column TableItem="CounterpartyAdresData" Title="First Name" Field="@(x => x.Description)" Sortable="true" Filterable="true" Width="20%" />
+            <Column TableItem="CounterpartyAdresData" Title="Last Name" Field="@(x => x.CityDescription)" Sortable="true" Filterable="true" Width="20%" />
+
+            <Column TableItem="CounterpartyAdresData" Title="Confirmed" Field="@(x => x.BuildingDescription)" Sortable="true" Filterable="true" Width="10%" />
+            <Column TableItem="CounterpartyAdresData" Title="Price" Field="@(x => x.AddressName)" Sortable="true" Filterable="true" Width="10%" />
+
+            <Pager ShowPageNumber="true" ShowTotalCount="true" />
+        </Table>
+    </DetailTemplate>
+
+    <Pager ShowPageNumber="true" ShowTotalCount="true" />
+
+</Table>
 }
 
-@if ((counterpartyadress == null))
-{
-    <p><em>Loading...</em></p>
-}
-else
-if (counterpartyadress.Count() < 1)
-{
-    <p><em>Not Data..</em></p>
-}
-else
-{
-<MudTable Items="@counterpartyadress" MultiSelection="false" @bind-SelectedItems="selectedAdresItems" Hover="@hover">
-    <ToolBarContent>
-        <MudText Typo="Typo.h6">Адреса</MudText>
-        <MudToolBarSpacer />
-        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-    </ToolBarContent>
-    <HeaderContent>
-        <MudTh>AddressName</MudTh>
-        <MudTh>Ref</MudTh>
-        <MudTh>Description</MudTh>
-        <MudTh>CityDescription</MudTh>
-        <MudTh>StreetDescription</MudTh>
-        <MudTh>BuildingDescription</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Nr">@context.AddressName</MudTd>
-        <MudTd DataLabel="Sign">@context.Ref</MudTd>
-        <MudTd DataLabel="Name">@context.Description</MudTd>
-        <MudTd DataLabel="Position">@context.CityDescription</MudTd>
-        <MudTd DataLabel="Molar mass">@context.StreetDescription</MudTd>
-        <MudTd DataLabel="Molar mass">@context.BuildingDescription</MudTd>
-    </RowTemplate>
-    <PagerContent>
-        <MudTablePager PageSizeOptions="new int[]{20, 50}" />
-    </PagerContent>
-</MudTable>
-}
-
-@if ((contactPersonCounterpartyData == null))
-{
-    <p><em>Loading...</em></p>
-}
-else
-
-    if (contactPersonCounterpartyData.Count() < 1)
-    { 
-        <p><em>Not Data...</em></p>
-    }
-    else
-
-{
-    <MudTable Items="@contactPersonCounterpartyData" MultiSelection="false" @bind-SelectedItems="selectedPersonItems" Hover="@hover">
-        <ToolBarContent>
-            <MudText Typo="Typo.h6">Контакты</MudText>
-            <MudToolBarSpacer />
-            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
-                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-        </ToolBarContent>
-        <HeaderContent>
-            <MudTh>FirstName</MudTh>
-            <MudTh>MiddleName</MudTh>
-            <MudTh>LastName</MudTh>
-            <MudTh>Phones</MudTh>
-            <MudTh>Email</MudTh>
-            <MudTh>Description</MudTh>
-            <MudTh>Ref</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="Nr">@context.FirstName</MudTd>
-            <MudTd DataLabel="Sign">@context.MiddleName</MudTd>
-            <MudTd DataLabel="Name">@context.LastName</MudTd>
-            <MudTd DataLabel="Position">@context.Phones</MudTd>
-            <MudTd DataLabel="Molar mass">@context.Email</MudTd>
-            <MudTd DataLabel="Molar mass">@context.Description</MudTd>
-            <MudTd>@context.Ref</MudTd>
-        </RowTemplate>
-        <PagerContent>
-            <MudTablePager PageSizeOptions="new int[]{20, 50}" />
-        </PagerContent>
-    </MudTable>
-}
 
 @code {
     private CounterpartyData[] counterpartylist;
-    private CounterpartyAdresData[] counterpartyadress,tempadr;
-    private ContactPersonCounterpartyData[] contactPersonCounterpartyData,tempcontpers;
-
+    private CounterpartyAdresData[] counterpartyadress, tempadr;
+    private ContactPersonCounterpartyData[] contactPersonCounterpartyData, tempcontpers;
+    public string dref;
     private bool hover = true;
     private HashSet<CounterpartyData> selectedItems = new HashSet<CounterpartyData>();
     private HashSet<CounterpartyAdresData> selectedAdresItems = new HashSet<CounterpartyAdresData>();
     private HashSet<ContactPersonCounterpartyData> selectedPersonItems = new HashSet<ContactPersonCounterpartyData>();
     private string searchString = "ЕТЦ";
-    private MudTable<CounterpartyData> table;
+
     private string alertmes = "-";
 
     protected override async Task OnInitializedAsync()
     {
-        // counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");
+        // counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");041ff71e-93fb-11eb-8513-b88303659df5
         counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");
+        string aref = "518d91f5-3de2-11ea-9937-005056881c6b";
+        counterpartyadress = await Http.GetFromJsonAsync<CounterpartyAdresData[]>("counterpartyadres/" + aref);
+        //if (tempadr != null)
+        //{
+        //    counterpartyadress = tempadr;
+        //}
+        //else
+        //{
+        //    alertmes = " counterpartyadress  =  null  ";
+        //}
 
     }
     protected async Task OnSearch(string text)
@@ -157,34 +81,53 @@ else
         counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty/" + text);
         //table.ReloadServerData();
     }
-    protected async Task OnViewDetail(string aref, string name)
-    //    protected void OnViewDetail(string aref, string name)
+    // protected async Task OnViewDetail(string aref)
+
+    //{
+    //if (aref == "")
+    //{
+    //    return;
+    //}
+    //alertmes = String.Format("ref{0}", aref);
+    //tempadr = await Http.GetFromJsonAsync<CounterpartyAdresData[]>("counterpartyadres/" + aref);
+    ////if (tempadr != null)
+    //{
+    //    counterpartyadress = tempadr;
+    //}
+    //else
+    //{
+    //    alertmes = " counterpartyadress  =  null  ";
+    //}
+    //// alertmes = String.Format("Адреса{0}  ref{1}   Адресов{2}", name, aref, counterpartyadress.Count());
+    //tempcontpers = await Http.GetFromJsonAsync<ContactPersonCounterpartyData[]>("contactpersoncounterparty/" + aref);
+    //if (tempcontpers != null)
+    //{
+    //    contactPersonCounterpartyData = tempcontpers;
+    //}
+
+
+
+
+    // }
+    // RowClickAction="@(x => { ClickID(x); })"
+
+    protected void ClickID(CounterpartyData ID)
     {
-        if (aref == "")
-        {
-            return;
-        }
-        alertmes = String.Format("Адреса{0}  ref{1}", name, aref);
-        tempadr = await Http.GetFromJsonAsync<CounterpartyAdresData[]>("counterpartyadres/" + aref);
-        if (tempadr != null)
-        {
-            counterpartyadress = tempadr;
-        }
-        else
-        {
-            alertmes = " counterpartyadress  =  null  ";
-        }
-        // alertmes = String.Format("Адреса{0}  ref{1}   Адресов{2}", name, aref, counterpartyadress.Count());
-        tempcontpers = await Http.GetFromJsonAsync<ContactPersonCounterpartyData[]>("contactpersoncounterparty/" + aref);
-        if (tempcontpers != null)
-        {
-             contactPersonCounterpartyData = tempcontpers; 
-        }
+        //if (ID == null)
+        //{
+        //    alertmes = "Nodata";
+        //}
+        //else
+        //{
+        //    alertmes = ID.Ref;
+        //}
 
-        //table.ReloadServerData();
-
+        alertmes = "===============================================================================================";
 
     }
+    protected void onClick(string id)
+    {
+        alertmes = id;
 
+    }
 }
-
