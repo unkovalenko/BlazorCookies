@@ -21,7 +21,7 @@ else
     <Column TableItem="CounterpartyData" Title="City" Field="@(x => x.City)" Sortable="true" Filterable="true" Width="10%" />
     <Column TableItem="CounterpartyData" Title="Ref" Field="@(x => x.Ref)" Sortable="true" Filterable="true" Width="10%">
         <Template>
-            <input type="button" @bind-value="@context.Ref" class="btn btn-primary" onclick="(){ @alertmes = @context.Ref}" />
+            <button class="btn btn-primary" onclick=btClick()>Click me  id</button>
         </Template>
     </Column> />
     <Column TableItem="CounterpartyData" Title="MiddleName Date" Field="@(x => x.MiddleName)" Sortable="true" Width="10%">
@@ -125,9 +125,9 @@ else
         alertmes = "===============================================================================================";
 
     }
-    protected void onClick(string id)
+    private void btClick()
     {
-        alertmes = id;
+        alertmes = "123";
 
     }
 }
