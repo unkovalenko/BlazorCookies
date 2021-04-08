@@ -1,190 +1,54 @@
 ﻿@page "/counterpartylist"
-@using BlazorCookies.Shared.Models
-@inject HttpClient Http
+@using GridShared
+@using GridShared.Utility
+@using Microsoft.Extensions.Primitives
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
 
-
-
-<h1>Counterparty</h1>
-
-<MudAlert Severity="Severity.Success">@alertmes</MudAlert>
-
-@if (counterpartylist == null)
+@if (_task.IsCompleted)
+{
+    <GridComponent T="CounterpartyData" Grid="@_grid"></GridComponent>
+}
+else
 {
     <p><em>Loading...</em></p>
 }
-else
-{
-    <MudTable Items="@counterpartylist" MultiSelection="false" @bind-SelectedItems="selectedItems" Hover="@hover">
-        <ToolBarContent>
-            <MudText Typo="Typo.h6">Контрагенты</MudText>
-            <MudToolBarSpacer />
-            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
-                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-        </ToolBarContent>
-        <HeaderContent>
-            <MudTh>FirstName</MudTh>
-            <MudTh>Ref</MudTh>
-            <MudTh>EDRPOU</MudTh>
-            <MudTh>City</MudTh>
-            <MudTh>Description</MudTh>
-            <MudTh> OwnershipFormDescription</MudTh>
-            <MudTh>Counterparty </MudTh>
-            <MudTh>CounterpartyType </MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd>@context.FirstName</MudTd>
-            <MudTd>@context.Ref</MudTd>
-            <MudTd>@context.EDRPOU</MudTd>
-            <MudTd>@context.City</MudTd>
-            <MudTd>@context.Description</MudTd>
-            <MudTd>@context.OwnershipFormDescription</MudTd>
-            <MudTd>@context.Counterparty</MudTd>
-            <MudTd>@context.CounterpartyType</MudTd>
-            <MudTd><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(()=>OnViewDetail(context.Ref,context.FirstName))">Adress</MudButton></MudTd>
-        </RowTemplate>
-        <PagerContent>
-            <MudTablePager PageSizeOptions="new int[]{20, 50}" />
-        </PagerContent>
-    </MudTable>
-}
 
-@if ((counterpartyadress == null))
-{
-    <p><em>Loading...</em></p>
-}
-else
-if (counterpartyadress.Count() < 1)
-{
-    <p><em>Not Data..</em></p>
-}
-else
-{
-<MudTable Items="@counterpartyadress" MultiSelection="false" @bind-SelectedItems="selectedAdresItems" Hover="@hover">
-    <ToolBarContent>
-        <MudText Typo="Typo.h6">Адреса</MudText>
-        <MudToolBarSpacer />
-        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-    </ToolBarContent>
-    <HeaderContent>
-        <MudTh>AddressName</MudTh>
-        <MudTh>Ref</MudTh>
-        <MudTh>Description</MudTh>
-        <MudTh>CityDescription</MudTh>
-        <MudTh>StreetDescription</MudTh>
-        <MudTh>BuildingDescription</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Nr">@context.AddressName</MudTd>
-        <MudTd DataLabel="Sign">@context.Ref</MudTd>
-        <MudTd DataLabel="Name">@context.Description</MudTd>
-        <MudTd DataLabel="Position">@context.CityDescription</MudTd>
-        <MudTd DataLabel="Molar mass">@context.StreetDescription</MudTd>
-        <MudTd DataLabel="Molar mass">@context.BuildingDescription</MudTd>
-    </RowTemplate>
-    <PagerContent>
-        <MudTablePager PageSizeOptions="new int[]{20, 50}" />
-    </PagerContent>
-</MudTable>
-}
-
-@if ((contactPersonCounterpartyData == null))
-{
-    <p><em>Loading...</em></p>
-}
-else
-
-    if (contactPersonCounterpartyData.Count() < 1)
-    { 
-        <p><em>Not Data...</em></p>
-    }
-    else
-
-{
-    <MudTable Items="@contactPersonCounterpartyData" MultiSelection="false" @bind-SelectedItems="selectedPersonItems" Hover="@hover">
-        <ToolBarContent>
-            <MudText Typo="Typo.h6">Контакты</MudText>
-            <MudToolBarSpacer />
-            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
-                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-        </ToolBarContent>
-        <HeaderContent>
-            <MudTh>FirstName</MudTh>
-            <MudTh>MiddleName</MudTh>
-            <MudTh>LastName</MudTh>
-            <MudTh>Phones</MudTh>
-            <MudTh>Email</MudTh>
-            <MudTh>Description</MudTh>
-            <MudTh>Ref</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="Nr">@context.FirstName</MudTd>
-            <MudTd DataLabel="Sign">@context.MiddleName</MudTd>
-            <MudTd DataLabel="Name">@context.LastName</MudTd>
-            <MudTd DataLabel="Position">@context.Phones</MudTd>
-            <MudTd DataLabel="Molar mass">@context.Email</MudTd>
-            <MudTd DataLabel="Molar mass">@context.Description</MudTd>
-            <MudTd>@context.Ref</MudTd>
-        </RowTemplate>
-        <PagerContent>
-            <MudTablePager PageSizeOptions="new int[]{20, 50}" />
-        </PagerContent>
-    </MudTable>
-}
-
-@code {
-    private CounterpartyData[] counterpartylist;
-    private CounterpartyAdresData[] counterpartyadress,tempadr;
-    private ContactPersonCounterpartyData[] contactPersonCounterpartyData,tempcontpers;
-
-    private bool hover = true;
-    private HashSet<CounterpartyData> selectedItems = new HashSet<CounterpartyData>();
-    private HashSet<CounterpartyAdresData> selectedAdresItems = new HashSet<CounterpartyAdresData>();
-    private HashSet<ContactPersonCounterpartyData> selectedPersonItems = new HashSet<ContactPersonCounterpartyData>();
-    private string searchString = "ЕТЦ";
-    private MudTable<CounterpartyData> table;
-    private string alertmes = "-";
-
-    protected override async Task OnInitializedAsync()
+@code
     {
-        // counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");
-        counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty");
+    private CGrid<CounterpartyData> _grid;
+    private Task _task;
 
-    }
-    protected async Task OnSearch(string text)
+    public static Action<IGridColumnCollection<CounterpartyData>> Columns = c =>
     {
-        searchString = text;
-        counterpartylist = await Http.GetFromJsonAsync<CounterpartyData[]>("counterparty/" + text);
-        //table.ReloadServerData();
-    }
-    protected async Task OnViewDetail(string aref, string name)
-    //    protected void OnViewDetail(string aref, string name)
+        c.Add(o => o.Description)
+        .Titled("Описание")
+            .Sortable(true)
+            .Filterable(true)
+            .SetWidth(220);
+        c.Add(o => o.EDRPOU);
+        c.Add(o => o.Counterparty);
+        c.Add(o => o.Ref);
+    };
+
+    protected override async Task OnParametersSetAsync()
     {
-        if (aref == "")
-        {
-            return;
-        }
-        alertmes = String.Format("Адреса{0}  ref{1}", name, aref);
-        tempadr = await Http.GetFromJsonAsync<CounterpartyAdresData[]>("counterpartyadres/" + aref);
-        if (tempadr != null)
-        {
-            counterpartyadress = tempadr;
-        }
-        else
-        {
-            alertmes = " counterpartyadress  =  null  ";
-        }
-        // alertmes = String.Format("Адреса{0}  ref{1}   Адресов{2}", name, aref, counterpartyadress.Count());
-        tempcontpers = await Http.GetFromJsonAsync<ContactPersonCounterpartyData[]>("contactpersoncounterparty/" + aref);
-        if (tempcontpers != null)
-        {
-             contactPersonCounterpartyData = tempcontpers; 
-        }
+        string url = "Counterparty/Get";
 
-        //table.ReloadServerData();
+        var query = new QueryDictionary<StringValues>();
+        query.Add("grid-page", "1");
 
+        var client = new GridClient<CounterpartyData>(HttpClient, url, query, false, "ordersGrid", Columns).Sortable()
+            .Filterable()
+            .ClearFiltersButton(true)
+            .SetStriped(false)
+            .WithMultipleFilters()
+            .WithGridItemsCount()
+            .Searchable(true, false, false);
+        _grid = client.Grid;
 
+        // Set new items to grid
+        _task = client.UpdateGrid();
+        await _task;
     }
-
 }
-

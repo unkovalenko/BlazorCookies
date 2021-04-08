@@ -11,12 +11,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BlazorCookies.Shared.Models;
 using Newtonsoft.Json;
+using GridMvc.Server;
+using GridShared;
+
+
+
+
+
 
 namespace BlazorCookies.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CounterpartyController : ControllerBase
+    public class CounterpartyController : Controller
     {
         private readonly ILogger<CounterpartyController> logger;
         private readonly IHttpClientFactory clientFactory;
@@ -28,14 +35,46 @@ namespace BlazorCookies.Server.Controllers
             Configuration = configuration;
         }
 
-        [HttpGet]
-        public CounterpartyData[] Get()
+        //[HttpGet]
+        //public CounterpartyData[] Get()
+        //{
+        //    string jsonString = (CounterpartyReuest("").Result.ToString());
+        //    CounterpartyList counterpartyList = JsonConvert.DeserializeObject<CounterpartyList>(jsonString);
+        //    List<CounterpartyData> templist = counterpartyList.data.ToList<CounterpartyData>().OrderBy(o => o.FirstName).ToList();
+        //    return templist.ToArray();
+        //}
+
+        [HttpGet("[action]")]
+        public ActionResult get()
         {
             string jsonString = (CounterpartyReuest("").Result.ToString());
             CounterpartyList counterpartyList = JsonConvert.DeserializeObject<CounterpartyList>(jsonString);
-            List<CounterpartyData> templist = counterpartyList.data.ToList<CounterpartyData>().OrderBy(o => o.FirstName).ToList();
-            return templist.ToArray();           
+            List<CounterpartyData> templist = counterpartyList.data.ToList<CounterpartyData>().ToList();
+            Action<IGridColumnCollection<CounterpartyData>> Columns = c =>
+            {
+                c.Add(o => o.Description)
+                .Titled("Описание")
+                    .Sortable(true)
+                    .Filterable(true)
+                    .SetWidth(220);
+                c.Add(o => o.EDRPOU);
+                c.Add(o => o.Counterparty);
+                c.Add(o => o.Ref);
+            };
+
+            IGridServer<CounterpartyData> server = new GridServer<CounterpartyData>((IEnumerable<CounterpartyData>)templist, Request.Query,
+                true, "ordersGrid", Columns).WithPaging(10)
+                    .Sortable()
+                    .Filterable()
+                    .WithMultipleFilters()
+                    .WithGridItemsCount()
+                    .Searchable(true, false, false);
+            var items = server.ItemsToDisplay;
+            return Ok(items);
         }
+
+
+
 
         [HttpGet("{searchString}")]
         public CounterpartyData[] Get(string searchString)
