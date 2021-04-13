@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System;
 using FirebirdSql;
+using BlazorCookies.DAL;
 
 namespace BlazorCookies.Server
 {
@@ -32,7 +33,7 @@ namespace BlazorCookies.Server
             services.AddDbContext<ApplicationDBContext>(options => options.UseFirebird(Configuration.GetConnectionString("DefaultConnection")));
             // services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddHttpClient("NewPostAPI", client => client.BaseAddress = new Uri(Configuration.GetValue<string>("URLNewPos")));
-
+            services.AddTransient<EUnitOfWork>();
 
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>

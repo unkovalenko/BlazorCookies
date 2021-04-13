@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -7,6 +7,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <Reference Include = "GridShared">
+      <HintPath>D:\MVS2019\Blazor\BlazorCookies\Blazor.Learner\GridShared\bin\Debug\netstandard2.1\GridShared.dll</HintPath>
+    </Reference>  
   </ItemGroup>
 
 </Project>

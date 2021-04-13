@@ -8,8 +8,8 @@ namespace BlazorCookies.DAL
     public  class EUnitOfWork : IDisposable
     {
         private ApplicationDBContext _context;
-        private DBView<USERS, UserExtensionData> viewUsers;
-        private DBTable<USERS> tblUsers;
+       // private DBView<USERS, UserExtensionData> viewUsers;
+        private DBTable<EXCHCHECK> tblExchcheck;
         public EUnitOfWork (ApplicationDBContext dbcontext )
         {
             _context = dbcontext;
@@ -19,52 +19,19 @@ namespace BlazorCookies.DAL
 
 
 
-        public DBView<USERS, UserExtensionData> ViewUsers
+       
+
+      
+
+        public DBTable<EXCHCHECK> TblExchcheck
         {
             get
             {
-                if (this.viewUsers == null)
+                if (this.tblExchcheck == null)
                 {
-                    this.viewUsers = new DBView<USERS, UserExtensionData>(_context, from p in _context.USERS
-                                                                                       join e in _context.PERSONAL on p.PE_ID equals e.PE_ID
-                                                                                       select new UserExtensionData
-                                                                                       {
-                                                                                           US_NAME = p.US_NAME,
-                                                                                           US_ADMIN = p.US_ADMIN,
-                                                                                           US_CATALOG = p.US_CATALOG,
-                                                                                           US_CRNAME = p.US_CRNAME,
-                                                                                           US_CRPW = p.US_CRPW,
-                                                                                           US_ENABLED = p.US_ENABLED,
-                                                                                           US_ID = p.US_ID,
-                                                                                           US_LEVEL = p.US_LEVEL,
-                                                                                           US_PREFIX = p.US_PREFIX,
-                                                                                           US_PW = p.US_PW,
-                                                                                           US_ROLE = p.US_ROLE,
-                                                                                           DEL = p.DEL,
-                                                                                           PE_ID = p.PE_ID,
-                                                                                           PE_NAME = e.PE_NAME,
-                                                                                           PE_REM = e.REM,
-                                                                                           PO_ID = e.PO_ID
-                                                                                       });
+                    this.tblExchcheck = new DBTable<EXCHCHECK>(this._context);
                 }
-                return viewUsers;
-            }
-        }
-
-        public IQueryable<UserExtensionData> ViewUsersPost(int postid)
-        {           
-                return ViewUsers.GetView(f => f.PO_ID == postid);         
-        }
-
-        public DBTable<USERS> TblUsers
-        {
-            get
-            {
-                if (this.tblUsers == null)
-                {
-                    this.tblUsers = new DBTable<USERS>(this._context);
-                }
-                return tblUsers;
+                return tblExchcheck;
             }
         }
         #endregion

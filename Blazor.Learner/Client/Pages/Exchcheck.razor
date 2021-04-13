@@ -1,0 +1,46 @@
+﻿@page "/exchcheck"
+@using GridShared
+@using GridShared.Utility
+@using Microsoft.Extensions.Primitives
+@using BlazorCookies.Shared
+@using BlazorCookies.Models
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+
+@if (_task.IsCompleted)
+{
+    <GridComponent T="EXCHCHECK" Grid="@_grid"></GridComponent>
+}
+else
+{
+    <p><em>Loading...</em></p>
+}
+
+@code
+    {
+    private CGrid<EXCHCHECK> _grid;
+    private Task _task;
+
+   
+
+    protected override async Task OnParametersSetAsync()
+    {
+        string url = NavigationManager.BaseUri + "api/ExchCheck/GetExchCheck";
+
+        var query = new QueryDictionary<StringValues>();
+        query.Add("grid-page", "1");
+
+        var client = new GridClient<EXCHCHECK>(HttpClient, url, query, false, "ExCheck", ColumnCollections.ExchcheckColumns).Sortable()
+            .Filterable()
+            .ClearFiltersButton(true)
+            .SetStriped(false)
+            .WithMultipleFilters()
+            .WithGridItemsCount()
+            .Searchable(true, false, false);
+        _grid = client.Grid;
+
+        // Set new items to grid
+        _task = client.UpdateGrid();
+        await _task;
+    }
+}

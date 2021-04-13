@@ -14,9 +14,12 @@ namespace BlazorCookies.Server.Data
     {
         public virtual DbSet<USERS> USERS { get; set; }
         public virtual DbSet<PERSONAL> PERSONAL { get; set; }
+        public virtual DbSet<CURRENCY> CURRENCY { get; set; }
+        public virtual DbSet<EXCHCHECK> EXCHCHECK { get; set; }
+        public virtual DbSet<EXCHANGE> EXCHANGE { get; set; }
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {
         }
-        public DbSet<Developer> Developers { get; set; }
+       
     }
 }
