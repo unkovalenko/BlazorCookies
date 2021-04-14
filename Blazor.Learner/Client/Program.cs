@@ -9,7 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Components.Authorization;
 using BlazorCookies.Client.Services;
-using MudBlazor.Services;
+using BlazorCookies.Models;
+using GridShared;
+
 
 namespace BlazorCookies.Client
 {
@@ -25,9 +27,10 @@ public class Program
         builder.Services.AddScoped<CustomStateProvider>();
         builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<CustomStateProvider>());
         builder.Services.AddScoped<IAuthService, AuthService>();
+        builder.Services.AddScoped<ICrudDataService<EXCHCHECK>, ExchcheckService>();
 
-        builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-        builder.Services.AddMudServices();
+            builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
             await builder.Build().RunAsync();
     }
 }

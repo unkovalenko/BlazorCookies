@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using BlazorCookies.Server.Data;
@@ -83,9 +84,19 @@ namespace BlazorCookies.Models
             return dbSet.Find(id);
         }
 
-        public virtual void Insert(TEntity entity)
+        public async virtual Task<TEntity>  GetByIDAsync(object id)
+        {
+            return  await dbSet.FindAsync(id);
+        }
+
+        public  virtual void Insert(TEntity entity)
         {
             dbSet.Add(entity);
+        }
+
+        public  async virtual Task InsertAsync(TEntity entity)
+        {
+           await dbSet.AddAsync(entity);
         }
 
         public virtual void Delete(object id)
@@ -112,6 +123,18 @@ namespace BlazorCookies.Models
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
         }
+
+        public virtual async Task UpdateAsync(TEntity entityToUpdate)
+        {
+            var ex = await GetByIDAsync(entityToUpdate);
+            if (ex != null)
+            {
+                dbSet.Attach(entityToUpdate);
+                context.Entry(entityToUpdate).State = EntityState.Modified;
+            }
+        }
+
+
 
         public void Save()
         {

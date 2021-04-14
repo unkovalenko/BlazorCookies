@@ -1,15 +1,22 @@
 ﻿@page "/exchcheck"
+@page "/exchcheck/{EC_ID}/{Mode}"
 @using GridShared
 @using GridShared.Utility
 @using Microsoft.Extensions.Primitives
+@using System.Globalization
 @using BlazorCookies.Shared
 @using BlazorCookies.Models
+@using System.Threading.Tasks
+
+
 @inject NavigationManager NavigationManager
 @inject HttpClient HttpClient
+@inject ICrudDataService<EXCHCHECK> exchcheckService
+
 
 @if (_task.IsCompleted)
 {
-    <GridComponent T="EXCHCHECK" Grid="@_grid"></GridComponent>
+    <GridComponent T="EXCHCHECK" @ref="_gridComponent"  Grid="@_grid" Mode="_mode" Keys="_keys"></GridComponent>
 }
 else
 {
@@ -19,28 +26,96 @@ else
 @code
     {
     private CGrid<EXCHCHECK> _grid;
+    private GridComponent<EXCHCHECK> _gridComponent;
     private Task _task;
+    private object[] _keys;
+    private GridMode _mode;
 
-   
+
+    [Parameter]
+    public string EC_ID { get; set; }
+
+    [Parameter]
+    public string Mode { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
+        var locale = CultureInfo.CurrentCulture;
         string url = NavigationManager.BaseUri + "api/ExchCheck/GetExchCheck";
 
         var query = new QueryDictionary<StringValues>();
         query.Add("grid-page", "1");
 
-        var client = new GridClient<EXCHCHECK>(HttpClient, url, query, false, "ExCheck", ColumnCollections.ExchcheckColumns).Sortable()
+        var client = new GridClient<EXCHCHECK>(HttpClient, url, query, false, "ExCheck", ColumnCollections.ExchcheckColumns, locale).Sortable()
             .Filterable()
             .ClearFiltersButton(true)
-            .SetStriped(false)
+            .SetStriped(true)
             .WithMultipleFilters()
             .WithGridItemsCount()
-            .Searchable(true, false, false);
+            .Searchable(true, false, false)
+            .Crud(true, exchcheckService)
+            .SetCreateConfirmation(true)
+            .SetUpdateConfirmation(true)
+            .SetDeleteConfirmation(true)
+            ;
         _grid = client.Grid;
+
+        if (!string.IsNullOrWhiteSpace(EC_ID))
+        {
+            int ec_id;
+            bool result = int.TryParse(EC_ID, out ec_id);
+            if (result)
+            {
+                if (Mode.ToLower() == "create")
+                {
+                    _keys = new object[] { ec_id };
+                    _mode = GridMode.Create;
+                }
+                else if (Mode.ToLower() == "read")
+                {
+                    _keys = new object[] { ec_id };
+                    _mode = GridMode.Read;
+                }
+                else if (Mode.ToLower() == "update")
+                {
+                    _keys = new object[] { ec_id };
+                    _mode = GridMode.Update;
+                }
+                else if (Mode.ToLower() == "delete")
+                {
+                    _keys = new object[] { ec_id };
+                    _mode = GridMode.Delete;
+                }
+            }
+            else
+            {
+                if (Mode.ToLower() == "create")
+                {
+                    _keys = new object[] { 1 };
+                    _mode = GridMode.Create;
+                }
+                else if (Mode.ToLower() == "read")
+                {
+                    _keys = new object[] { 1 };
+                    _mode = GridMode.Read;
+                }
+                else if (Mode.ToLower() == "update")
+                {
+                    _keys = new object[] { 1 };
+                    _mode = GridMode.Update;
+                }
+                else if (Mode.ToLower() == "delete")
+                {
+                    _keys = new object[] { 1 };
+                    _mode = GridMode.Delete;
+                }
+            }
+        }
+
 
         // Set new items to grid
         _task = client.UpdateGrid();
         await _task;
     }
+    ////
 }

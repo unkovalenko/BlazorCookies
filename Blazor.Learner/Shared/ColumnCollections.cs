@@ -13,7 +13,7 @@ using BlazorCookies.Models;
 
             public static Action<IGridColumnCollection<EXCHCHECK>> ExchcheckColumns = c =>
             {
-                c.Add(o => o.EC_ID).Titled("ID").SetWidth(10);
+                c.Add(o => o.EC_ID).SetPrimaryKey(true).Titled("ID").SetWidth(10);
                 c.Add(o => o.EC_DATE, "OrderCustomDate").Titled(Constants.DATE)
                 //.SetWidth(120).RenderComponentAs<TooltipCell>()
                 ;
