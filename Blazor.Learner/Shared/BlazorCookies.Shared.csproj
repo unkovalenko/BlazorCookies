@@ -8,7 +8,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
     <Reference Include = "GridShared">
-      <HintPath>D:\MVS2019\Blazor\BlazorCookies\Blazor.Learner\GridShared\bin\Debug\netstandard2.1\GridShared.dll</HintPath>
+      <HintPath>D:\MSVS2019\Blazor\BlazorCookies\Blazor.Learner\bin\Debug\netstandard2.1\GridShared.dll</HintPath>
     </Reference>  
   </ItemGroup>
 

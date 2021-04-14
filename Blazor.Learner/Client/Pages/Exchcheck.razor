@@ -54,9 +54,7 @@ else
             .WithGridItemsCount()
             .Searchable(true, false, false)
             .Crud(true, exchcheckService)
-            .SetCreateConfirmation(true)
-            .SetUpdateConfirmation(true)
-            .SetDeleteConfirmation(true)
+           
             ;
         _grid = client.Grid;
 
@@ -87,29 +85,7 @@ else
                     _mode = GridMode.Delete;
                 }
             }
-            else
-            {
-                if (Mode.ToLower() == "create")
-                {
-                    _keys = new object[] { 1 };
-                    _mode = GridMode.Create;
-                }
-                else if (Mode.ToLower() == "read")
-                {
-                    _keys = new object[] { 1 };
-                    _mode = GridMode.Read;
-                }
-                else if (Mode.ToLower() == "update")
-                {
-                    _keys = new object[] { 1 };
-                    _mode = GridMode.Update;
-                }
-                else if (Mode.ToLower() == "delete")
-                {
-                    _keys = new object[] { 1 };
-                    _mode = GridMode.Delete;
-                }
-            }
+           
         }
 
 

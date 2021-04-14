@@ -126,12 +126,7 @@ namespace BlazorCookies.Models
 
         public virtual async Task UpdateAsync(TEntity entityToUpdate)
         {
-            var ex = await GetByIDAsync(entityToUpdate);
-            if (ex != null)
-            {
-                dbSet.Attach(entityToUpdate);
-                context.Entry(entityToUpdate).State = EntityState.Modified;
-            }
+            await Task.Run(() => Update(entityToUpdate));
         }
 
 
