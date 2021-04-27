@@ -13,10 +13,11 @@
 @inject HttpClient HttpClient
 @inject ICrudDataService<EXCHCHECK> exchcheckService
 
-
+<p>@mess</p>
+<button type='button' class='btn btn-primary' @onclick="ButtonClick">Apple</button>
 @if (_task.IsCompleted)
 {
-    <GridComponent T="EXCHCHECK" @ref="_gridComponent"  Grid="@_grid" Mode="_mode" Keys="_keys"></GridComponent>
+    <GridComponent T="EXCHCHECK" @ref="_gridComponent"  Grid="_grid" OnRowClicked="@SelectRow" ></GridComponent>
 }
 else
 {
@@ -30,7 +31,7 @@ else
     private Task _task;
     private object[] _keys;
     private GridMode _mode;
-
+    private string mess="--------------";
 
     [Parameter]
     public string EC_ID { get; set; }
@@ -40,7 +41,12 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
+        CultureInfo.CurrentCulture = new CultureInfo("uk-UA");
+        CultureInfo.CurrentUICulture = new CultureInfo("uk-UA");
         var locale = CultureInfo.CurrentCulture;
+        //var locale = new CultureInfo("uk-UA");
+
+
         string url = NavigationManager.BaseUri + "api/ExchCheck/GetExchCheck";
 
         var query = new QueryDictionary<StringValues>();
@@ -54,44 +60,27 @@ else
             .WithGridItemsCount()
             .Searchable(true, false, false)
             .Crud(true, exchcheckService)
-           
-            ;
+            .Selectable(true)
+            .SetHeaderCrudButtons(true)
+            .SetCrudButtonLabels("Add", "View", "Edit", "Delete");
+
+        ;
         _grid = client.Grid;
-
-        if (!string.IsNullOrWhiteSpace(EC_ID))
-        {
-            int ec_id;
-            bool result = int.TryParse(EC_ID, out ec_id);
-            if (result)
-            {
-                if (Mode.ToLower() == "create")
-                {
-                    _keys = new object[] { ec_id };
-                    _mode = GridMode.Create;
-                }
-                else if (Mode.ToLower() == "read")
-                {
-                    _keys = new object[] { ec_id };
-                    _mode = GridMode.Read;
-                }
-                else if (Mode.ToLower() == "update")
-                {
-                    _keys = new object[] { ec_id };
-                    _mode = GridMode.Update;
-                }
-                else if (Mode.ToLower() == "delete")
-                {
-                    _keys = new object[] { ec_id };
-                    _mode = GridMode.Delete;
-                }
-            }
-           
-        }
-
-
         // Set new items to grid
         _task = client.UpdateGrid();
         await _task;
     }
-    ////
+
+    private void SelectRow(object item)
+    {
+        EXCHCHECK it = (EXCHCHECK)item;
+        mess = it.EC_ID.ToString();
+        StateHasChanged();
+    }
+
+    private void ButtonClick()
+    {
+
+        mess = mess;
+    }
 }

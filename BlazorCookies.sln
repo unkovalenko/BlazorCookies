@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCookies.Client", "Bla
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCookies.Shared", "Blazor.Learner\Shared\BlazorCookies.Shared.csproj", "{B38C0393-B3E7-4C8C-8CE3-03086C6C31B2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridShared", "Blazor.Learner\GridShared\GridShared.csproj", "{B37B87D4-397D-4D93-8226-2B5B44C275B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B38C0393-B3E7-4C8C-8CE3-03086C6C31B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B38C0393-B3E7-4C8C-8CE3-03086C6C31B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B38C0393-B3E7-4C8C-8CE3-03086C6C31B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B37B87D4-397D-4D93-8226-2B5B44C275B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B37B87D4-397D-4D93-8226-2B5B44C275B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B37B87D4-397D-4D93-8226-2B5B44C275B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B37B87D4-397D-4D93-8226-2B5B44C275B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

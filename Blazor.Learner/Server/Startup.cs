@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using System;
 using FirebirdSql;
 using BlazorCookies.DAL;
+using Newtonsoft.Json;
+using System.Globalization;
 
 namespace BlazorCookies.Server
 {
@@ -22,6 +24,8 @@ namespace BlazorCookies.Server
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            CultureInfo.CurrentCulture = new CultureInfo("uk-UA");
+            CultureInfo.CurrentUICulture = new CultureInfo("uk-UA");
         }
 
         public IConfiguration Configuration { get; }
@@ -82,7 +86,7 @@ namespace BlazorCookies.Server
 
 
 
-            services.AddControllers().AddNewtonsoftJson();
+            //services.AddControllers().AddNewtonsoftJson();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
